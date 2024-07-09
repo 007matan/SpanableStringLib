@@ -1,20 +1,20 @@
-*Easy Spannable
+# Easy Spannable
 
-***SpanableStringLib is an Android library designed to simplify the usage of 'SpannableString'. It provides an easy-to-use API for applying various spans to text, making it more convenient to style strings without dealing with the complexities of 'SpannableString; directly.
+### SpanableStringLib is an Android library designed to simplify the usage of 'SpannableString'. It provides an easy-to-use API for applying various spans to text, making it more convenient to style strings without dealing with the complexities of 'SpannableString; directly.
 
-**Features
+## Features
 ('*') Apply different spans (e.g., Bold, Underline, Color).
 ('*') Chain multiple spans for complex text styling.
 ('*') Support custome spans.
 
-**Usage
-***Basic Usage
+## Usage
+### Basic Usage
 SpanText.SpanString spanString = new SpanText.SpanString();
         spanString.addNewLine("Hello From Cohen");
         SpanText spanText = new SpanText();
         spanText.add(spanString);
 
-***Applying Color, Size, Shadow
+### Applying Color, Size, Shadow
 SpanText.SpanString spanString = new SpanText.SpanString();
         spanString.addNewLine("Hello From")
                 .add(new SpanText.Size(10))
@@ -23,7 +23,7 @@ SpanText.SpanString spanString = new SpanText.SpanString();
         SpanText spanText = new SpanText();
         spanText.add(spanString);
 
-***Applying two Strings With different spans
+### Applying two Strings With different spans
 SpanText.SpanString spanString = new SpanText.SpanString();
         spanString.addNewLine("Hello From")
                 .add(new SpanText.Size(10))
@@ -38,7 +38,7 @@ SpanText.SpanString spanString = new SpanText.SpanString();
         SpanText spanText = new SpanText();
         spanText.add(spanString).add(spanString2);
 
-**License
+##License
 Copyright (c) 2015-2024 Matan Ovadya Cohen Tsedek
 
 Permission is hereby granted, free of charge, to any person obtaining
