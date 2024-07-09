@@ -5,7 +5,7 @@
 ## Features
 (`*`) Apply different spans (e.g., Bold, Underline, Color).  
 (`*`) Chain multiple spans for complex text styling.  
-(`*`) Support custome spans.  
+`*` Support custome spans.  
 
 ## Usage
 
