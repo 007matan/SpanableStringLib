@@ -45,7 +45,7 @@ spanString2.addNewLine("Matan")
 SpanText spanText = new SpanText();
 spanText.add(spanString).add(spanString2);
 ```
-
+![Spannable image](./Spannable_img.png)
 ## License
 
 ```
