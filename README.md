@@ -3,9 +3,9 @@
 ### SpanableStringLib is an Android library designed to simplify the usage of 'SpannableString'. It provides an easy-to-use API for applying various spans to text, making it more convenient to style strings without dealing with the complexities of 'SpannableString; directly.
 
 ## Features
-('*') Apply different spans (e.g., Bold, Underline, Color).
-('*') Chain multiple spans for complex text styling.
-('*') Support custome spans.
+('*') Apply different spans (e.g., Bold, Underline, Color).  
+('*') Chain multiple spans for complex text styling.  
+('*') Support custome spans.  
 
 ## Usage
 ### Basic Usage
