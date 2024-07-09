@@ -19,6 +19,8 @@ spanText.add(spanString);
 ```
 
 ### Applying Color, Size, Shadow
+
+```java
 SpanText.SpanString spanString = new SpanText.SpanString();
 spanString.addNewLine("Hello From")
         .add(new SpanText.Size(10))
@@ -26,8 +28,11 @@ spanString.addNewLine("Hello From")
         .add(new SpanText.Shadow(2.5F, 0.2F, 0.4F, Color.GREEN));
 SpanText spanText = new SpanText();
 spanText.add(spanString);
+```
 
 ### Applying two Strings With different spans
+
+```java
 SpanText.SpanString spanString = new SpanText.SpanString();
 spanString.addNewLine("Hello From")
         .add(new SpanText.Size(10))
@@ -39,6 +44,7 @@ spanString2.addNewLine("Matan")
         .add(new SpanText.Blur(3.5F));
 SpanText spanText = new SpanText();
 spanText.add(spanString).add(spanString2);
+```
 
 ## License
 Copyright (c) 2015-2024 Matan Ovadya Cohen Tsedek
