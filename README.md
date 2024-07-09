@@ -9,6 +9,7 @@
 
 ## Usage
 ### Basic Usage
+'''java 
 SpanText.SpanString spanString = new SpanText.SpanString();
 spanString.addNewLine("Hello From Cohen");
 SpanText spanText = new SpanText();
