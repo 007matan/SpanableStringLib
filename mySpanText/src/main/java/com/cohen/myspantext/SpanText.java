@@ -26,22 +26,16 @@ import java.util.ArrayList;
  * it One big SpannableString
  */
 public class SpanText {
-
-
     private ArrayList<SpanString> text = new ArrayList<>();
 
-    public SpanText() {
-    }
-
+    public SpanText() {}
     public void clear() {
         text.clear();
     }
-
     public SpanText add(SpanString spanText) {
         text.add(spanText);
         return this;
     }
-
     public SpannableStringBuilder makeSpannableString() {
         SpannableStringBuilder spannableString = new SpannableStringBuilder();
         for (int i = 0; i < text.size(); i++) { //run all over the strings
@@ -50,7 +44,7 @@ public class SpanText {
                 int startIndex = spannableString.length() - text.get(i).getString().length();
                 int endIndex = spannableString.length();
                 //spannableString.setSpan(text.get(i).getSpans().get(j).getSpan(), startIndex, endIndex, text.get(i).getSpans().get(j).getFlag());
-                spannableString.setSpan(text.get(i).getSpans().get(j).getSpan(), startIndex, endIndex, Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
+                spannableString.setSpan(text.get(i).getSpans().get(j).getSpan(), startIndex, endIndex, text.get(i).getSpans().get(j).getFlag());
             }
         }
         return spannableString;
@@ -63,32 +57,25 @@ public class SpanText {
      * when the SpanText will make it to SpannableString
      */
     public static class SpanString {
-
         String string = "";
         ArrayList<SpanType> spans = new ArrayList<>();
 
-        public SpanString() {
-        }
-
+        public SpanString() {}
         public SpanString add(String s) {
             string += s;
             return this;
         }
-
         public SpanString addNewLine(String s) {
             string += s + "\n";
             return this;
         }
-
         public SpanString add(SpanType spanType) {
             spans.add(spanType);
             return this;
         }
-
         public String getString() {
             return string;
         }
-
         public ArrayList<SpanType> getSpans() {
             return spans;
         }
@@ -101,7 +88,14 @@ public class SpanText {
      * and a flag attribute (Integer) that represent the SpannableStringFlags
      */
     public static abstract class SpanType {
+        int flag = Spannable.SPAN_EXCLUSIVE_EXCLUSIVE;
 
+        int getFlag(){
+            return flag;
+        }
+        void setFlag(int flag){
+            this.flag = flag;
+        }
         abstract Object getSpan();
     }
 
@@ -116,10 +110,14 @@ public class SpanText {
         private final float MAX = 3.0F;
         private float size;
 
-        public Size(float size) {
+        public Size(float size, int flag){
             size = Math.min(size, MAX);
             size = Math.max(size, MIN);
             this.size = size;
+            setFlag(flag);
+        }
+        public Size(float size) {
+            this(size, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         }
         @Override
         Object getSpan() {
@@ -136,15 +134,18 @@ public class SpanText {
     public static class Bullet extends SpanType {
         private final int MIN = 1;
         private final int MAX = 4;
-
         int color;
         int size;
 
         public Bullet() {
+            this(android.graphics.Color.rgb(255, 255, 255), 12, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        }
+        public Bullet(int color, int size, int flag){
             size = Math.min(size, MAX);
             size = Math.max(size, MIN);
-            this.size = size;
             this.color = color;
+            this.size = size;
+            setFlag(flag);
         }
         @Override
         Object getSpan() {
@@ -161,7 +162,11 @@ public class SpanText {
         int color;
 
         public Color(int color) {
+            this(color, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        }
+        public Color(int color, int flag){
             this.color = color;
+            setFlag(flag);
         }
         @Override
         Object getSpan() {
@@ -186,15 +191,17 @@ public class SpanText {
         float dy;
         int shadowColor;
 
-
         public Shadow(float radius, float horizontalOffset, float verticalOffset, int shadowColor) {
+            this(radius, horizontalOffset, verticalOffset, shadowColor, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        }
+        public Shadow(float radius, float horizontalOffset, float verticalOffset, int shadowColor, int flag) {
             radius = Math.min(radius, MAX);
             radius = Math.max(radius, MIN);
             this.radius = radius;
             this.dx = horizontalOffset;
             this.dy = verticalOffset;
             this.shadowColor = shadowColor;
-
+            setFlag(flag);
         }
         @Override
         Object getSpan() {
@@ -212,6 +219,10 @@ public class SpanText {
      * A represent of a type of a span that set a strikethrough effect on a string
      */
     public static class Strikethrough extends SpanType {
+        public Strikethrough(){}
+        public Strikethrough(int flag){
+            setFlag(flag);
+        }
         @Override
         Object getSpan() {
             return new StrikethroughSpan();
@@ -223,7 +234,10 @@ public class SpanText {
      * A represent of a type of a span that used to align the string from right to left
      */
     public static class AlignOpposite extends SpanType {
-
+        public AlignOpposite(){}
+        public AlignOpposite(int flag){
+            setFlag(flag);
+        }
         @Override
         Object getSpan() {
             return new AlignmentSpan.Standard(Layout.Alignment.ALIGN_OPPOSITE);
@@ -235,7 +249,10 @@ public class SpanText {
      * A represent of a type of a span that used to align the string to center
      */
     public static class AlignCenter extends SpanType {
-
+        public AlignCenter(){}
+        public AlignCenter(int flag){
+            setFlag(flag);
+        }
         @Override
         Object getSpan() {
             return new AlignmentSpan.Standard(Layout.Alignment.ALIGN_CENTER);
@@ -251,15 +268,17 @@ public class SpanText {
     public static class Blur extends SpanType {
         private final float MIN = 0.5F;
         private final float MAX = 20.0F;
-
         private float radius;
 
         public Blur(float radius) {
+            this(radius, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        }
+        public Blur(float radius, int flag) {
             radius = Math.min(radius, MAX);
             radius = Math.max(radius, MIN);
             this.radius = radius;
+            setFlag(flag);
         }
-
         @Override
         Object getSpan() {
             return new MaskFilterSpan(new BlurMaskFilter(radius, BlurMaskFilter.Blur.NORMAL));
@@ -271,7 +290,10 @@ public class SpanText {
      * A represent of a type of a span that set the string slightly above the normal line
      */
     public static class Superscript extends SpanType {
-
+        public Superscript(){}
+        public Superscript(int flag){
+            setFlag(flag);
+        }
         @Override
         Object getSpan() {
             return new SuperscriptSpan();
@@ -283,7 +305,10 @@ public class SpanText {
      * A represent of a type of a span that set the string slightly below the normal line
      */
     public static class Subscript extends SpanType {
-
+        public Subscript(){}
+        public Subscript(int flag){
+            setFlag(flag);
+        }
         @Override
         Object getSpan() {
             return new SubscriptSpan();
@@ -295,6 +320,10 @@ public class SpanText {
      * A represent of a type of a span that set line below the string
      */
     public static class Underline extends SpanType {
+        public Underline(){}
+        public Underline(int flag){
+            setFlag(flag);
+        }
         @Override
         Object getSpan() {
             return new UnderlineSpan();
@@ -312,12 +341,15 @@ public class SpanText {
         private final float MAX = 10.0F;
         private float space;
 
-        public LetterSpacing(float space) {
+        public LetterSpacing(float space){
+            this(space, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        }
+        public LetterSpacing(float space, int flag) {
             space = Math.min(space, MAX);
             space = Math.max(space, MIN);
             this.space = space;
+            setFlag(flag);
         }
-
         @Override
         Object getSpan() {
             return new CharacterStyle() {
@@ -339,12 +371,15 @@ public class SpanText {
         private final int MAX = 255;
         private final int value;
 
-        public Transparent(int value) {
+        public Transparent(int value){
+            this(value, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        }
+        public Transparent(int value, int flag) {
             value = Math.min(value, MAX);
             value = Math.max(value, MIN);
             this.value = value;
+            setFlag(flag);
         }
-
         @Override
         Object getSpan() {
             return new CharacterStyle() {

@@ -19,15 +19,16 @@ public class MainActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
         id_main_txt = findViewById(R.id.id_main_txt);
+
         SpanText.SpanString spanString0 = new SpanText.SpanString();
-        spanString0.addNewLine("Check")
+        spanString0.addNewLine("System Message:")
                 .add(new SpanText.AlignCenter())
                 .add(new SpanText.Color(Color.RED));
 
         SpanText.SpanString spanString = new SpanText.SpanString();
         spanString.addNewLine("Hello From")
                 .add(new SpanText.Size(10))
-                .add(new SpanText.Color(Color.YELLOW))
+                .add(new SpanText.Color(Color.MAGENTA))
                 .add(new SpanText.Shadow(2.5F, 0.2F, 0.4F, Color.GREEN));
 
         SpanText.SpanString spanString2 = new SpanText.SpanString();
