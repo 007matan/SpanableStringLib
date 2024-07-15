@@ -69,10 +69,10 @@ id_main_txt.setText(spanText.makeSpannableString());
 ![Spannable_image](./SpannableStr_img.png)
 
 ## What's new
-1.00.01:
+# 1.00.01:
         SpannableString Flag option to the SpantType Creation
 
-1.00.02:
+# 1.00.02:
         Image icon can be added to SpannableString
 ## License
         
