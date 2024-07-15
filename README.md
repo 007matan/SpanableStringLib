@@ -66,7 +66,7 @@ spanText.add(spanString0).add(spanString).add(spanString2).add(spanString3).add(
 
 id_main_txt.setText(spanText.makeSpannableString());
 ```
-![Spannable_image](./Spannable_img.png)
+![Spannable_image](./SpannableStr_img.png)
 
 ## What's new
 1.00.01:
