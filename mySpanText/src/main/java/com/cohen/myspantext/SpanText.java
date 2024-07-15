@@ -1,7 +1,10 @@
 package com.cohen.myspantext;
 
 
+import android.content.res.Resources;
 import android.graphics.BlurMaskFilter;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.text.Layout;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
@@ -9,13 +12,23 @@ import android.text.TextPaint;
 import android.text.style.AlignmentSpan;
 import android.text.style.BulletSpan;
 import android.text.style.CharacterStyle;
+import android.text.style.DynamicDrawableSpan;
 import android.text.style.ForegroundColorSpan;
+import android.text.style.ImageSpan;
 import android.text.style.MaskFilterSpan;
 import android.text.style.RelativeSizeSpan;
 import android.text.style.StrikethroughSpan;
 import android.text.style.SubscriptSpan;
 import android.text.style.SuperscriptSpan;
 import android.text.style.UnderlineSpan;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.content.res.ResourcesCompat;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.CustomTarget;
+import com.bumptech.glide.request.transition.Transition;
 
 import java.util.ArrayList;
 
@@ -43,7 +56,6 @@ public class SpanText {
             for (int j = 0; j < text.get(i).getSpans().size(); j++) {
                 int startIndex = spannableString.length() - text.get(i).getString().length();
                 int endIndex = spannableString.length();
-                //spannableString.setSpan(text.get(i).getSpans().get(j).getSpan(), startIndex, endIndex, text.get(i).getSpans().get(j).getFlag());
                 spannableString.setSpan(text.get(i).getSpans().get(j).getSpan(), startIndex, endIndex, text.get(i).getSpans().get(j).getFlag());
             }
         }
@@ -57,8 +69,8 @@ public class SpanText {
      * when the SpanText will make it to SpannableString
      */
     public static class SpanString {
-        String string = "";
-        ArrayList<SpanType> spans = new ArrayList<>();
+        private String string = "";
+        private ArrayList<SpanType> spans = new ArrayList<>();
 
         public SpanString() {}
         public SpanString add(String s) {
@@ -72,6 +84,19 @@ public class SpanText {
         public SpanString add(SpanType spanType) {
             spans.add(spanType);
             return this;
+        }
+        public SpanString addImage(Resources resources, int drawable, int size){
+            addImage(resources, drawable, size, Image.POS_CENTER);
+            return this;
+        }
+        public void addImage(Resources resources, int drawableRes, int size, int position){
+            String modified = "%icon%";
+            Drawable drawable = ResourcesCompat.getDrawable(resources, drawableRes, resources.newTheme());
+            if(drawable != null){
+                drawable.setBounds(0, 0, size, size);
+                string += modified;
+                spans.add(new Image(drawable, position));
+            }
         }
         public String getString() {
             return string;
@@ -107,7 +132,7 @@ public class SpanText {
      */
     public static class Size extends SpanType {
         private final float MIN = 0.2F;
-        private final float MAX = 3.0F;
+        private final float MAX = 5.0F;
         private float size;
 
         public Size(float size, int flag){
@@ -133,12 +158,12 @@ public class SpanText {
      */
     public static class Bullet extends SpanType {
         private final int MIN = 1;
-        private final int MAX = 4;
+        private final int MAX = 400;
         int color;
         int size;
 
         public Bullet() {
-            this(android.graphics.Color.rgb(255, 255, 255), 12, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            this(android.graphics.Color.BLACK, 5, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         }
         public Bullet(int color, int size, int flag){
             size = Math.min(size, MAX);
@@ -267,7 +292,7 @@ public class SpanText {
      */
     public static class Blur extends SpanType {
         private final float MIN = 0.5F;
-        private final float MAX = 20.0F;
+        private final float MAX = 25.0F;
         private float radius;
 
         public Blur(float radius) {
@@ -338,7 +363,7 @@ public class SpanText {
      */
     public static class LetterSpacing extends SpanType {
         private final float MIN = 0.0F;
-        private final float MAX = 10.0F;
+        private final float MAX = 2.0F;
         private float space;
 
         public LetterSpacing(float space){
@@ -389,5 +414,42 @@ public class SpanText {
                 }
             };
         }
+    }
+    public static class Image extends SpanType {
+        private Drawable drawable;
+
+        private static final int POS_BASELINE = 1;
+
+        private static final int POS_CENTER = 2;
+        private static final int POS_BOTTOM = 0;
+
+
+        private int position = 0;
+
+
+        public Image(Drawable drawable, int position){
+            setPosition(position);
+            this.drawable = drawable;
+        }
+        public Image setPosition(int position){
+            if(position > -1 && position < 3)
+                this.position = position;
+            else
+                this.position = POS_CENTER;
+            return this;
+        }
+
+        @Override
+        Object getSpan() {
+            if(position == POS_BASELINE){
+                return new ImageSpan(drawable, DynamicDrawableSpan.ALIGN_BASELINE);
+            }
+            else if(position == POS_CENTER){
+                return new ImageSpan(drawable, DynamicDrawableSpan.ALIGN_CENTER);
+            }
+            else {
+                return new ImageSpan(drawable);
+            }
+        };
     }
 }
