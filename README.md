@@ -70,10 +70,13 @@ id_main_txt.setText(spanText.makeSpannableString());
 
 ## What's new
 # 1.00.01:
-        SpannableString Flag option to the SpantType Creation
+
+SpannableString Flag option to the SpantType Creation
 
 # 1.00.02:
-        Image icon can be added to SpannableString
+
+Image icon can be added to SpannableString
+
 ## License
         
 ```
