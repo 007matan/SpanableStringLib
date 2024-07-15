@@ -1,6 +1,8 @@
 # Easy Spannable
 
-### SpanableStringLib is an Android library designed to simplify the usage of 'SpannableString'. It provides an easy-to-use API for applying various spans to text, making it more convenient to style strings without dealing with the complexities of 'SpannableString; directly.
+SpanableStringLib is an Android library designed to simplify the usage of 'SpannableString'.   
+It provides an easy-to-use API for applying various spans to text, making it more convenient to   
+style strings without dealing with the complexities of 'SpannableString; directly.   
 
 ## Features
 - Apply different spans (e.g., Bold, Underline, Color).  
@@ -33,19 +35,31 @@ spanText.add(spanString);
 ### Applying two Strings With different spans
 
 ```java
+SpanText.SpanString spanString0 = new SpanText.SpanString();
+spanString0.addNewLine("System Message:")
+        .add(new SpanText.AlignCenter())
+        .add(new SpanText.Color(Color.RED));
+
 SpanText.SpanString spanString = new SpanText.SpanString();
 spanString.addNewLine("Hello From")
         .add(new SpanText.Size(10))
-        .add(new SpanText.Color(Color.YELLOW))
+        .add(new SpanText.Color(Color.MAGENTA))
         .add(new SpanText.Shadow(2.5F, 0.2F, 0.4F, Color.GREEN));
+
 SpanText.SpanString spanString2 = new SpanText.SpanString();
 spanString2.addNewLine("Matan")
-        .add(new SpanText.Size(2))
-        .add(new SpanText.Blur(3.5F));
+         .add(new SpanText.Size(2))
+         .add(new SpanText.Blur(3.5F));
+
 SpanText spanText = new SpanText();
-spanText.add(spanString).add(spanString2);
+spanText.add(spanString0).add(spanString).add(spanString2);
 ```
 ![Spannable image](./Spannable_img.png)
+
+## What's new
+1.00.1:
+        SpannableString Flag option to the SpantType Creation
+
 ## License
 
 ```
