@@ -1,6 +1,7 @@
 package com.cohen.myspantext;
 
 
+import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.BlurMaskFilter;
 import android.graphics.Color;
@@ -71,6 +72,13 @@ public class SpanText {
     public static class SpanString {
         private String string = "";
         private ArrayList<SpanType> spans = new ArrayList<>();
+        private Context context;
+
+        private void init(Context context){
+            if(this.context != null){
+                this.context = context;
+            }
+        }
 
         public SpanString() {}
         public SpanString add(String s) {
@@ -98,6 +106,66 @@ public class SpanText {
                 spans.add(new Image(drawable, position));
             }
         }
+//        public void addImage(String imgURL){
+//                                String imageUrl = "https://upload.wikimedia.org/wikipedia/commons/1/14/Panorama_Sunset_In_Bat_Yam.jpg";
+//                                Context c = SpannableText_Singleton.getMe().getContext();
+//                                // Using Glide to load the image asynchronously
+//                                Glide.with(c)
+//                                        .asDrawable()
+//                                        .load(imageUrl)
+//                                        .into(new CustomTarget<Drawable>() {
+//                                            @Override
+//                                            public void onResourceReady(@NonNull Drawable drawable, @Nullable Transition<? super Drawable> transition) {
+//                                                // Create an ImageSpan with the loaded drawable
+//                                                drawable.setBounds(0, 0, 200, 200);
+//                                                //ImageSpan imageSpan = new ImageSpan(drawable, DynamicDrawableSpan.ALIGN_BASELINE);
+//
+//                                                String modified = "%icon%";
+//                                                string += modified;
+//                                                spans.add(new Image(drawable, DynamicDrawableSpan.ALIGN_BASELINE));
+//
+//                                                // Apply the ImageSpan to your TextView or EditText
+//                                                //SpannableString spannableString = new SpannableString("Your text with image");
+//                                                //spannableString.setSpan(imageSpan, startIndex, endIndex, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+//
+//                            // Set the SpannableString to your TextView or EditText
+//                            //textView.setText(spannableString);
+//                        }
+//
+//                        @Override
+//                        public void onLoadCleared(@Nullable Drawable placeholder) {
+//                            // Placeholder cleanup if needed
+//                        }
+//                    });
+//        }
+        public void addImage(String imgURL, ImageLoadCallback callback) {
+            String modified = "%image%";
+            string += modified;
+            Context c = SpannableText_Singleton.getMe().getContext();
+            // Using Glide to load the image asynchronously
+            Glide.with(c)
+                    .asDrawable()
+                    .load(imgURL)
+                    .into(new CustomTarget<Drawable>() {
+                        @Override
+                        public void onResourceReady(@NonNull Drawable drawable, @Nullable Transition<? super Drawable> transition) {
+                            // Set bounds for the drawable
+                            drawable.setBounds(0, 0, 200, 200);
+                            // Add the image span to the spans list
+                            spans.add(new Image(drawable, Image.POS_CENTER));
+                            // Notify that the image has been loaded
+                            if (callback != null) {
+                                callback.onImageLoaded();
+                            }
+                        }
+
+                        @Override
+                        public void onLoadCleared(@Nullable Drawable placeholder) {
+                            // Handle any cleanup if needed
+                        }
+                    });
+        }
+
         public String getString() {
             return string;
         }
